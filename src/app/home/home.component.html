@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="header">
+        <h1>BANK SEARCH</h1>
+    </div>
+    <div class="row" style="text-align:left">
+    
+            <div [ngClass]="{'col-md-12':!filteredBanks,'col-md-4':filteredBanks}">
+                <form #selectCity="ngForm">
+                    <div class="form-group">
+                        <select [(ngModel)]="selectedCity" (ngModelChange)="onSelectingCity($event)"
+                            class="form-control" name="City" required>
+                            <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="filteredBanks" class="col-md-8">
+                <div class="form-group">
+                    <input type="text" name="filterText" [(ngModel)]="filterText" class="form-control"
+                        placeholder="Enter field to search" required>
+                </div>
+            </div>
+    </div>
+    <br>
+    <div *ngIf="!selectedCity" class="button">
+        <button (click)="onClickingFavButton()"  class="btn btn-dark">Click to view Your favourite Banks</button>
+        <br>
+        <br>
+        <div *ngIf="favouriteBanks.length>0 && favButton">
+
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Bank Name</th>
+                            <th scope="col">Branch</th>
+                            <th scope="col">Ifsc Code</th>
+                            <th scope="col">State</th>  
+                            
+                        </tr>
+                    </thead>
+                    <tbody tooltip="click to delete bank from favourites" placement="top" show-delay="50">
+                        <tr *ngFor="let bank of favouriteBanks | paginate: { itemsPerPage: 10, currentPage: p }" (click)="onClickingBanks(bank)" [ngClass]="bank.favourite?'normal':'normal'">
+                            <th scope="row"><a [routerLink]="['/bank-view',bank.ifsc]" (click)=favBankViewClicked(bank.city,bank.bank_id)>{{bank.bank_name}}</a></th>
+                            <td >{{bank.branch}}</td>
+                            <td>{{bank.ifsc}}</td>
+                            <td>{{bank.state}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+        
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+        <div *ngIf="favButton && favouriteBanks.length==0">
+            <h1>No Favourite Banks Added</h1>
+        </div>
+    </div>
+    <div *ngIf="filteredBanks">
+
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Bank Name</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Ifsc Code</th>
+                    <th scope="col">State</th>
+                </tr>
+            </thead>
+            <tbody tooltip="click to add bank to favourites" placement="top" show-delay="50">
+                <tr *ngFor="let bank of filteredBanks | paginate: { itemsPerPage: 10, currentPage: p }" (click)="onClickingBanks(bank)" [ngClass]="bank.favourite?'favourite':'normal'">
+                    <th scope="row"><a [routerLink]="['/bank-view',bank.ifsc]"(click)=bankViewClicked(bank.city,bank.bank_id)>{{bank.bank_name}}</a></th>
+                    <td>{{bank.branch}}</td>
+                    <td>{{bank.ifsc}}</td>
+                    <td>{{bank.state}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+
+
+</div>

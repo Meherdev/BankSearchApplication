@@ -1,0 +1,32 @@
+<div class="box">
+    <div class="row" *ngIf='currentBank'>
+        <div class="col-md-2"></div>
+        <div class="col-md-8 ">
+            <div class="row">
+                <div class="col-md-0"></div>
+                <div class="col-md-12">
+                        <h1>{{currentBank.bank_name}}</h1>
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+            <hr>
+            <br>
+            <h5>Bank ID:{{currentBank.bank_id}}</h5>
+            <h5>Bank Branch : {{currentBank.branch}}</h5>
+            <h5>Bank IFSC : {{currentBank.ifsc}}</h5>
+            <hr>
+            <h4>Address</h4>
+            <p>{{currentBank.address}}</p>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>City : {{currentBank.city}}</h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>State : {{currentBank.state}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="cold-md-2"></div>
+    </div>
+</div>
