@@ -55,7 +55,18 @@
         </div>
     </div>
     <div *ngIf="filteredBanks">
-
+        <div [ngClass]="{'col-md-4':filteredBanks,'pageSize':filteredBanks}">
+            <form #pageSelect="ngForm">
+                <div class="form-group">
+                    <select [(ngModel)]="pageLength" class="form-control" name="pageNumber" required>
+                        <option *ngFor="let number of NumberArray" [value]="number">{{number}}</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div *ngIf="filteredBanks">
+        
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -66,7 +77,7 @@
                 </tr>
             </thead>
             <tbody tooltip="click to add bank to favourites" placement="top" show-delay="50">
-                <tr *ngFor="let bank of filteredBanks | paginate: { itemsPerPage: 10, currentPage: p }" (click)="onClickingBanks(bank)" [ngClass]="bank.favourite?'favourite':'normal'">
+                <tr *ngFor="let bank of filteredBanks | paginate: { itemsPerPage: pageLength, currentPage: p }" (click)="onClickingBanks(bank)" [ngClass]="bank.favourite?'favourite':'normal'">
                     <th scope="row"><a [routerLink]="['/bank-view',bank.ifsc]"(click)=bankViewClicked(bank.city,bank.bank_id)>{{bank.bank_name}}</a></th>
                     <td>{{bank.branch}}</td>
                     <td>{{bank.ifsc}}</td>

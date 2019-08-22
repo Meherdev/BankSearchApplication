@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
   public cities =['MUMBAI','HYDERABAD','CHENNAI','BANGALORE','DELHI','TIRUPATI'];
   public favouriteBanks:Array<any>=[];
   public favButton :boolean=false;
+  public NumberArray : Array<Number>;
+  public pageLength : number = 10;
 
   private _searchTerm:string;
   get filterText (){
@@ -32,9 +34,13 @@ export class HomeComponent implements OnInit {
     console.log(this._searchTerm);
     this.filteredBanks=this.filteringBanks(this._searchTerm);
   }
-  constructor(private _route: ActivatedRoute,private router: Router,public bankhttpService:BankHttpService,private toastr :ToastrService) { }
+  constructor(private _route: ActivatedRoute,private router: Router,public bankhttpService:BankHttpService,private toastr :ToastrService) {
+    
+   }
   
   ngOnInit() {
+    this.NumberArray=Array(15).fill(1).map((x,i)=>i+1);
+    //console.log(this.NumberArray);
     if((Cookie.get('favBanks'))!=null){
       let data= JSON.parse(Cookie.get('favBanks'));
     //   console.log(data);
